@@ -12,4 +12,666 @@
   <meta property="og:description" content="Metallbau, Gartenservice & Seilarbeiten in Disentis und Umgebung." />
   <meta property="og:image" content="images/hero-mountain.svg" />
   <!-- Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Int...
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <style>
+    :root {
+      --pine-green: #274037;
+      --slate-gray: #495057;
+      --warm-beige: #E8DCC5;
+      --off-white: #f9f8f6;
+      --accent: #bda167;
+      --error-red: #bf223c;
+      --success-green: #3cb371;
+      --nav-height: 64px;
+      --transition: 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    html {
+      scroll-behavior: smooth;
+      background: var(--off-white);
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      color: var(--slate-gray);
+      background: var(--off-white);
+      min-height: 100vh;
+    }
+    a { color: var(--pine-green); text-decoration: none; transition: color var(--transition);}
+    a:focus, button:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+    button, .button {
+      display: inline-block;
+      min-width: 130px;
+      padding: 0.7em 1.6em;
+      border: none;
+      border-radius: 4px;
+      background: var(--pine-green);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+      box-shadow: 0 2px 8px rgba(39,64,55,0.09);
+    }
+    button:hover, .button:hover, button:active, .button:active {
+      background: var(--accent);
+      color: var(--pine-green);
+      transform: translateY(-1px) scale(1.02);
+    }
+    /* NAVIGATION */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,255,255,0.98);
+      display: flex; justify-content: space-between; align-items: center;
+      height: var(--nav-height); box-shadow: 0 2px 8px rgba(39,64,55,0.06);
+      padding: 0 2vw;
+      font-size: 1.08rem;
+    }
+    .logo {
+      font-weight: 700; font-size: 1.3rem;
+      color: var(--pine-green); letter-spacing: 1px;
+      background: none;
+    }
+    .nav-links {
+      display: flex; gap: 1.7vw;
+      list-style: none; margin: 0; padding: 0;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--slate-gray);
+      padding: 0.45em 0.7em; border-radius: 3px;
+      transition: background var(--transition), color var(--transition);
+      font-weight: 500;
+      position: relative;
+    }
+    .nav-links a:hover,
+    .nav-links a:focus,
+    .nav-links a.active {
+      background: var(--warm-beige);
+      color: var(--pine-green);
+      text-decoration: underline;
+    }
+    .nav-toggle {
+      display: none;
+      background: none; border: none; padding: 10px;
+      cursor: pointer; outline: none;
+      align-self: center;
+    }
+    .sr-only { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px);}
+    .nav-toggle-icon { width:32px; height:32px; display: flex; flex-direction:column; justify-content:center;}
+    .nav-toggle-icon span {
+      display: block; height:4px; margin:4px 0; width:100%;
+      background: var(--pine-green); border-radius: 4px;
+      transition: all .21s cubic-bezier(.4,0,.2,1);
+    }
+    /* HERO */
+    .hero {
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      min-height: 65vh; width: 100vw; position: relative;
+      background: var(--off-white);
+      overflow: hidden;
+      padding-top: calc(var(--nav-height) + 10px);
+    }
+    .hero-svg-bg {
+      position: absolute; left: 0; top: 0;
+      width: 100vw; height: 50vh; min-height:285px;
+      z-index:0; overflow:hidden;
+      pointer-events:none;
+      will-change: transform;
+      transition: transform .26s cubic-bezier(.32,0,.31,1);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 720px; margin-top: 80px; text-align: left;
+      background: rgba(255,255,255,0.97); border-radius: 12px; box-shadow: 0 3px 22px rgba(39,64,55,0.04);
+      padding: 2.8rem 2.1rem;
+      display: flex; flex-direction: column; gap: 2vh;
+      align-items: flex-start;
+    }
+    .hero-content h1 {
+      font-size: 2.2rem; font-weight: 700; color: var(--pine-green);
+      margin: 0 0 11px 0;
+    }
+    .hero-content p {
+      font-size: 1.13rem; color: var(--slate-gray);
+      margin-bottom: 18px; margin-top: 0;
+      max-width: 55ch;
+    }
+    .hero-cta { display: flex; gap: 18px; }
+    .hero-cta .button { font-size: 1.06rem;}
+    /* SECTIONS */
+    section { padding: 60px 0 50px 0; margin: 0 auto; max-width: 1200px;}
+    section[aria-label] { scroll-margin-top: 90px;}
+    h2 { color: var(--pine-green); font-size: 2rem; font-weight: 700; margin: 0 0 1.5em 0;}
+    /* Leistungen */
+    .leistungen-cards { display: flex; justify-content: space-between; gap: 36px; flex-wrap: wrap; }
+    .service-card {
+      flex: 1 1 250px; max-width: 330px; background: #fff;
+      border: 1.5px solid var(--warm-beige); border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(39,64,55,0.07);
+      padding: 2em 1.2em 1.7em 1.2em;
+      display: flex; flex-direction: column; gap: 0.75em;
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+    .service-card:hover,
+    .service-card:focus-within {
+      transform: translateY(-5px) scale(1.025);
+      box-shadow: 0 8px 27px rgba(39,64,55,0.11);
+      border-color: var(--accent);
+    }
+    .service-card svg {
+      width: 43px; height: 43px; color: var(--pine-green); align-self: flex-end;
+      margin-bottom: 4px;
+      background: var(--warm-beige); border-radius: 50%; padding: 6px;
+    }
+    .service-title { font-size: 1.2rem; color: var(--pine-green); font-weight: 600;}
+    .service-desc { font-size: 1rem; min-height: 3.6em; }
+    .service-tasks { font-size: 0.97rem; padding-inline-start: 18px;}
+    .service-card .button { margin-top: 1em; align-self: flex-end;}
+    /* Über Silas */
+    .ueber-container { display: flex; gap:36px; align-items: center;}
+    .portrait {
+      width: 160px; height: 200px; border-radius: 16px;
+      object-fit: cover; border: 3px solid var(--warm-beige);
+      background: #eee;
+      margin-right: 18px;
+    }
+    .ueber-info {
+      max-width: 450px;
+    }
+    .ueber-info .bio { margin: 1.1em 0;}
+    /* Portfolio */
+    .portfolio-grid {
+      display: grid; gap: 27px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-bottom: 2em;
+    }
+    .portfolio-item {
+      background: #fff; border-radius: 7px; box-shadow: 0 2px 7px rgba(39,64,55,0.07);
+      overflow: hidden; cursor: pointer; transition: box-shadow var(--transition);
+      border: 1px solid var(--warm-beige);
+      display: flex; flex-direction: column; align-items: stretch;
+      position: relative;
+    }
+    .portfolio-item:focus-within,
+    .portfolio-item:focus,
+    .portfolio-item:hover {
+      border-color: var(--accent); box-shadow: 0 5px 18px rgba(39,64,55,.12);
+    }
+    .portfolio-imgs { display: flex; flex-direction: row;}
+    .portfolio-imgs img {
+      width: 50%; aspect-ratio: 4/3; object-fit: cover; transition: opacity .15s;
+      border-right: 1px solid var(--warm-beige);
+    }
+    .portfolio-imgs img:last-child { border-right: none;}
+    .portfolio-caption { font-size: 1.04em; color: var(--pine-green); padding: 9px 14px 12px 14px;}
+    /* Lightbox */
+    .lightbox-bg {
+      display: none;
+      position: fixed; left:0; top:0; width:100vw; height:100vh; background: rgba(44,44,44,0.75);
+      justify-content: center; align-items: center; z-index: 2000;
+    }
+    .lightbox-bg.active { display: flex;}
+    .lightbox-content {
+      background: #fff; border-radius: 14px; box-shadow: 0 6px 30px rgba(39,64,55,0.22);
+      max-width: 95vw; max-height: 83vh; overflow: auto; display: flex; flex-direction: column; align-items: center;
+      outline: none; position: relative; padding: 25px 28px 17px 28px;
+      min-width: 320px;
+    }
+    .lightbox-imgs { display: flex; gap: 2vw;}
+    .lightbox-imgs img {
+      width: 260px; max-width: 41vw; border-radius: 6px;
+      object-fit: cover; aspect-ratio: 4/3; background: #eee;
+      box-shadow: 0 2px 14px rgba(39,64,55,0.12);
+    }
+    .lightbox-title { font-size: 1.18em; font-weight: 600; margin: 15px 0 8px 0; color:var(--pine-green);}
+    .lightbox-desc { color: var(--slate-gray);}
+    .lightbox-close {
+      position: absolute; top: 0.6em; right: 1em;
+      font-size: 2.1em; background: none; border: none; color: var(--accent); cursor: pointer;
+      transition: color var(--transition);}
+    .lightbox-close:hover { color: var(--error-red);}
+    /* Kontakt */
+    .kontakt-section { display: flex; gap: 44px; flex-wrap: wrap;}
+    .kontakt-form {
+      background: #fff;
+      border: 1.5px solid var(--warm-beige);
+      border-radius: 8px; padding: 32px 17px 22px 22px;
+      min-width: 295px; max-width: 420px;
+      box-shadow: 0 3px 16px rgba(39,64,55,0.08);
+      display: flex; flex-direction: column; gap: 13px;
+      font-size: 1.08em;
+    }
+    .kontakt-form label { font-weight:600; margin-bottom: 3px;}
+    .kontakt-form input,
+    .kontakt-form textarea,
+    .kontakt-form select {
+      width: 100%; padding: 8px 7px;
+      font-size: 1em; border: 1.2px solid var(--warm-beige); border-radius: 5px;
+      background: #f5f4f2;
+      font-family: 'Inter', system-ui, sans-serif;
+      margin-bottom: 6px;
+      transition: border-color var(--transition);
+    }
+    .kontakt-form input:focus,
+    .kontakt-form textarea:focus,
+    .kontakt-form select:focus {
+      border-color: var(--accent); outline: 2px solid var(--accent);
+    }
+    .kontakt-form textarea { resize: vertical; min-height: 92px; }
+    .kontakt-form .button { margin-top: 8px;}
+    .kontakt-alt { margin-top: 17px; display: flex; gap: 11px; flex-wrap: wrap; }
+    .kontakt-alt .button { background: var(--accent); color: var(--pine-green); }
+    .kontakt-alt .button:hover { background: var(--pine-green); color: #fff; }
+
+    .form-status {
+      font-size: 0.97em; font-weight:600; line-height:1.45;
+      padding: 0.2em 0 0.2em 0.2em;
+    }
+    .form-status.error { color: var(--error-red);}
+    .form-status.success { color: var(--success-green);}
+    .kontakt-map {
+      min-width: 270px; max-width: 350px; align-self: flex-start; text-align: center;
+    }
+    .kontakt-map img {
+      width: 100%; max-width: 330px; border-radius: 7px;
+      object-fit: cover; border: 2px solid var(--warm-beige); margin-bottom: 8px;
+    }
+    /* FOOTER */
+    footer {
+      margin-top: 55px; padding: 36px 0 17px 0;
+      background: var(--pine-green); color: var(--off-white);
+      font-size: 1rem;
+      position: relative; text-align: center;
+    }
+    .footer-container { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap:16px; align-items: flex-start;}
+    .footer-section { flex: 1 1 170px; padding: 0 14px; text-align: left;}
+    .socials { display: flex; gap: 10px; margin-bottom:13px;}
+    .social-link { background: var(--warm-beige); border-radius: 50%; padding: 8px; width:42px; height:42px; display: flex; align-items: center;justify-content: center;}
+    .social-link svg { width: 22px; height: 22px; color: var(--pine-green);}
+    .impressum, .datenschutz {
+      font-size: 0.95em;
+      margin-top: 10px; margin-bottom: 4px;
+    }
+    .privacy-link { color: var(--accent); text-decoration: underline; }
+    .footer-note { font-size:0.91em; color:var(--warm-beige); margin-top:7px; }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .leistungen-cards {flex-direction: column; gap: 29px;}
+      .ueber-container { flex-direction:column; }
+      .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px;}
+    }
+    @media (max-width: 670px) {
+      nav, .footer-container { flex-direction: column;}
+      nav { padding: 0 2vw;}
+      .logo { margin-bottom: 7px; }
+      .hero-content { margin-top: 30px;}
+    }
+    @media (max-width: 650px) {
+      .hero-content { padding: 1.4rem 0.7rem;}
+    }
+    @media (max-width: 500px) {
+      .hero-svg-bg { min-height:170px; height: 36vw;}
+      nav { padding: 0 1vw;}
+      .portfolio-grid { grid-template-columns:1fr; gap:11px;}
+    }
+    /* Hamburger NAV on mobile */
+    @media (max-width:790px) {
+      .nav-links {
+        display:none; position: absolute; top: var(--nav-height); right:0; background: #fff; box-shadow:0 2px 8px rgba(39,64,55,0.08);
+        flex-direction: column; min-width: 190px; border-radius: 0 0 7px 7px; padding: 7px 0 8px 0; z-index: 11;
+      }
+      .nav-links.open { display: flex;}
+      .nav-toggle { display:block; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVIGATION -->
+  <nav role="navigation" aria-label="Hauptnavigation">
+    <div class="logo" tabindex="0">Silas Maissen</div>
+    <button class="nav-toggle" aria-label="Menü öffnen und schließen" aria-controls="hauptmenü" aria-expanded="false">
+      <span class="sr-only">Menü</span>
+      <span class="nav-toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+    <ul class="nav-links" id="hauptmenü">
+      <li><a href="#start" class="active">Start</a></li>
+      <li><a href="#leistungen">Leistungen</a></li>
+      <li><a href="#ueber">Über Silas</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#impressum">Impressum</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero" id="start" aria-label="Startbereich">
+    <div class="hero-svg-bg" aria-hidden="true">
+      <!-- Mountain SVG:  Bestandteile/Berge sind als Platzhalter. -->
+      <img src="images/hero-mountain.svg" alt="" style="width:100vw;min-height:200px;max-height:340px;">
+    </div>
+    <div class="hero-content">
+      <h1>
+        <!-- DEUTSCHER HINWEIS: Hauptüberschrift (H1) für SEO, bearbeiten Sie den Text nach Wunsch. -->
+        Silas Maissen – Metallbau & Umgebungsarbeiten in Disentis
+      </h1>
+      <p>
+        <!-- DEUTSCHER HINWEIS: Introtext. Hier frei anpassen, z.B. mit Ihren Leistungen oder Ihrer Philosophie. -->
+        Ihr zuverlässiger Ansprechpartner für Metallbau, Gartenservice und Arbeiten am Seil in Disentis und Umgebung.
+      </p>
+      <div class="hero-cta">
+        <!-- DEUTSCHER HINWEIS: Telefonnummer anpassen (tel: Link). -->
+        <a href="tel:+41790000000" class="button">Jetzt anrufen</a>
+        <!-- DEUTSCHER HINWEIS: WhatsApp-Link ("wa.me/") anpassen. -->
+        <a href="https://wa.me/41790000000" class="button" style="background:var(--accent); color:var(--pine-green);">WhatsApp schreiben</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LEISTUNGEN -->
+  <section id="leistungen" aria-label="Leistungen">
+    <h2>Leistungen</h2>
+    <div class="leistungen-cards">
+      <!-- SERVICE 1 -->
+      <div class="service-card" tabindex="0">
+        <!-- DEUTSCHER HINWEIS: Icon bearbeiten (SVG austauschen/ändern). -->
+        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect x="5" y="19" width="22" height="6" rx="2"/><rect x="11" y="11" width="10" height="7" rx="1"/><rect x="13" y="5" width="6" height="6" rx="1"/></svg>
+        <div class="service-title">Metallbau</div>
+        <div class="service-desc">
+          <!-- DEUTSCHER HINWEIS: Beschreibung bearbeiten. -->
+          Individuelle Metallarbeiten für Haus, Garten und Gewerbe.
+        </div>
+        <ul class="service-tasks">
+          <!-- DEUTSCHER HINWEIS: Aufgaben stichwortartig anpassen. -->
+          <li>Treppen & Geländer</li>
+          <li>Gartentore und Zäune</li>
+          <li>Sonderanfertigungen</li>
+        </ul>
+        <a href="#kontakt" class="button">Kontaktieren</a>
+      </div>
+      <!-- SERVICE 2 -->
+      <div class="service-card" tabindex="0">
+        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect x="5" y="18" width="22" height="8" rx="2"/><circle cx="16" cy="13" r="4"/><rect x="9" y="9" width="3" height="3" rx="1"/></svg>
+        <div class="service-title">Umgebungsarbeiten (Gartenservice)</div>
+        <div class="service-desc">
+          <!-- DEUTSCHER HINWEIS: Beschreibung bearbeiten. -->
+          Pflegen und Gestalten von Gärten, Wegen und Außenflächen.
+        </div>
+        <ul class="service-tasks">
+          <!-- DEUTSCHER HINWEIS: Aufgaben stichwortartig anpassen. -->
+          <li>Gartenpflege</li>
+          <li>Pflaster- & Natursteinarbeiten</li>
+          <li>Terrassenbau</li>
+        </ul>
+        <a href="#kontakt" class="button">Kontaktieren</a>
+      </div>
+      <!-- SERVICE 3 -->
+      <div class="service-card" tabindex="0">
+        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect x="6" y="26" width="20" height="3" rx="1.5"/><path d="M7 26V7a2 2 0 012-2h14a2 2 0 012 2v19" /></svg>
+        <div class="service-title">Arbeiten am hängenden Seil</div>
+        <div class="service-desc">
+          <!-- DEUTSCHER HINWEIS: Beschreibung bearbeiten. -->
+          Spezielle Montage- & Wartungsarbeiten in luftiger Höhe.
+        </div>
+        <ul class="service-tasks">
+          <!-- DEUTSCHER HINWEIS: Aufgaben stichwortartig anpassen. -->
+          <li>Dachrinnenreinigung</li>
+          <li>Montagen an Fassaden</li>
+          <li>Seilgesicherte Baumpflege</li>
+        </ul>
+        <a href="#kontakt" class="button">Kontaktieren</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÜBER SILAS -->
+  <section id="ueber" aria-label="Über Silas Maissen">
+    <h2>Über Silas</h2>
+    <div class="ueber-container">
+      <!-- DEUTSCHER HINWEIS: Portrait-Bild in images/silas-portrait-placeholder.jpg ersetzen -->
+      <img src="images/silas-portrait-placeholder.jpg" alt="Portrait Silas Maissen" class="portrait" loading="lazy">
+      <div class="ueber-info">
+        <!-- DEUTSCHER HINWEIS: Name, Wohnort etc. bearbeiten. -->
+        <div><b>Name:</b> Silas Maissen</div>
+        <div><b>Wohnort:</b> Disentis</div>
+        <div><b>Berufserfahrung:</b> 8 Jahre</div>
+        <div><b>Qualifikationen:</b> Metallbauer EFZ, geprüfter Seilzugangstechniker</div>
+        <div class="bio">
+          <!-- DEUTSCHER HINWEIS: Bio-Text bearbeiten, z.B. mit Vertrauensdetails. -->
+          Silas Maissen ist ein ausgezeichneter Skifahrer und setzt sein handwerkliches Können leidenschaftlich für jedes Projekt ein.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" aria-label="Portfolio">
+    <h2>Portfolio</h2>
+    <div class="portfolio-grid" id="portfolio-grid">
+      <!-- DEUTSCHER HINWEIS: Bilddateien austauschen unter images/portfolio-before-X.jpg usw.  Siehe README. -->
+      <div class="portfolio-item" tabindex="0" data-title="Gartentor – vorher/nachher" data-desc="Komplette Erneuerung eines alten Gartentors.">
+        <div class="portfolio-imgs">
+          <img src="images/portfolio-before-1.jpg" alt="Vorher: altes Gartentor" loading="lazy">
+          <img src="images/portfolio-after-1.jpg" alt="Nachher: neues Gartentor" loading="lazy">
+        </div>
+        <div class="portfolio-caption">Gartentor – vorher/nachher</div>
+      </div>
+      <div class="portfolio-item" tabindex="0" data-title="Steinterrasse" data-desc="Terrassenbau mit Natursteinplatten in Disentis.">
+        <div class="portfolio-imgs">
+          <img src="images/portfolio-before-2.jpg" alt="Vorher: Terrasse im Rohbau" loading="lazy">
+          <img src="images/portfolio-after-2.jpg" alt="Nachher: fertige Steinterrasse" loading="lazy">
+        </div>
+        <div class="portfolio-caption">Steinterrasse</div>
+      </div>
+      <!-- DEUTSCHER HINWEIS: Weitere Projekte nach gleichem Muster hinzufügen. -->
+    </div>
+    <!-- Lightbox -->
+    <div class="lightbox-bg" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" tabindex="-1">
+      <div class="lightbox-content" tabindex="0">
+        <button class="lightbox-close" aria-label="Schließen">&times;</button>
+        <div class="lightbox-imgs">
+          <img src="" alt="Vorher Bild groß" id="lightbox-before">
+          <img src="" alt="Nachher Bild groß" id="lightbox-after">
+        </div>
+        <div class="lightbox-title" id="lightbox-title"></div>
+        <div class="lightbox-desc" id="lightbox-desc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" aria-label="Kontaktformular">
+    <h2>Kontakt</h2>
+    <div class="kontakt-section">
+      <form class="kontakt-form" id="kontakt-form" autocomplete="on" method="POST"
+            action="mailto:ihre@emailadresse.ch"
+            enctype="text/plain" aria-label="Kontaktformular">
+        <!-- DEUTSCHER HINWEIS: Mailadresse im action-Attribut anpassen. -->
+        <label for="name">Name *</label>
+        <input id="name" name="Name" type="text" required placeholder="Ihr Name">
+        <label for="email">E-Mail *</label>
+        <input id="email" name="E-Mail" type="email" required placeholder="beispiel@mail.ch">
+        <label for="tel">Telefon</label>
+        <input id="tel" name="Telefon" type="tel" placeholder="+41 79 ...">
+        <label for="dienstleistung">Dienstleistung *</label>
+        <select id="dienstleistung" name="Dienstleistung" required>
+          <!-- DEUTSCHER HINWEIS: Leistungen hier bei Bedarf anpassen. -->
+          <option value="">Bitte wählen ...</option>
+          <option>Metallbau</option>
+          <option>Umgebungsarbeiten</option>
+          <option>Arbeiten am hängenden Seil</option>
+        </select>
+        <label for="nachricht">Nachricht *</label>
+        <textarea id="nachricht" name="Nachricht" required placeholder="Wie kann ich helfen?"></textarea>
+        <button type="submit" class="button">Absenden</button>
+        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+      </form>
+      <div class="kontakt-map">
+        <!-- DEUTSCHER HINWEIS: Map-Bild in images/map-disentis-placeholder.jpg ersetzen. -->
+        <a href="https://goo.gl/maps/fp2Fe4GC4y41dkzA6" target="_blank" rel="noopener">
+          <img src="images/map-disentis-placeholder.jpg" alt="Disentis Karte Vorschau" loading="lazy">
+        </a>
+        <div class="kontakt-alt">
+          <!-- DEUTSCHER HINWEIS: Telefonnummer/WA-Link anpassen -->
+          <a href="tel:+41790000000" class="button" title="Anrufen">Anrufen</a>
+          <a href="https://wa.me/41790000000" class="button" title="WhatsApp">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="impressum" aria-label="Impressum & Datenschutz">
+    <div class="footer-container">
+      <div class="footer-section">
+        <div class="socials" aria-label="Soziale Medien">
+          <!-- DEUTSCHER HINWEIS: Links eintragen oder entfernen. Icons können angepasst werden. -->
+          <a href="#" class="social-link" aria-label="LinkedIn"><svg fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><rect x="8" y="13" width="4" height="11" fill="#fff"/><circle cx="10" cy="10" r="2" fill="#fff"/><rect x="16" y="17" width="4" height="7" fill="#fff"/><rect x="16" y="13" width="4" height="3" fill="#fff"/></svg></a>
+          <a href="#" class="social-link" aria-label="Facebook"><svg fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><path d="M19 13h-2c-.6 0-1 .4-1 1v2h3l-.5 3.5H16v7h-3v-7h-2V16h2v-2a3 3 0 013-3h3v3z" fill="#fff"/></svg></a>
+          <a href="#" class="social-link" aria-label="Instagram"><svg fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="currentColor"/><rect x="10" y="10" width="12" height="12" rx="6" fill="#fff"/><circle cx="16" cy="16" r="4" fill="currentColor"/><circle cx="22" cy="10" r="1" fill="currentColor"/></svg></a>
+        </div>
+        <!-- DEUTSCHER HINWEIS: Impressum und Kontakt hier ersetzen/ergänzen -->
+        <div class="impressum">
+          <b>Impressum:</b><br>
+          Silas Maissen, Disentis – Vorname.Nachname@email.ch<br>
+          <!-- Adresse/Beruf nodefalls ergänzen -->
+        </div>
+      </div>
+      <div class="footer-section datenschutz">
+        <!-- DEUTSCHER HINWEIS: Datenschutzhinweis anpassen oder ausführlichen Text im README.md. -->
+        <b>Datenschutzhinweis:</b><br>
+        Diese Website setzt keine Cookies und verfolgt keine Nutzeraktivitäten. <br>
+        <a href="datenschutz-template.txt" class="privacy-link" target="_blank">Mehr erfahren</a>
+      </div>
+    </div>
+    <div class="footer-note">
+      &copy; 2026 Silas Maissen – Metallbau & Umgebungsarbeiten in Disentis | Kein Einsatz von Cookies, kein Tracking.
+    </div>
+  </footer>
+
+  <!-- JavaScript für Navigation, Parallax, Portfolio-Lightbox, Form Validation -->
+  <script>
+    // --- Navigation Hamburger Toggle (barrierefrei) ---
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', !expanded);
+      navLinks.classList.toggle('open');
+    });
+    // Close nav on link click (for mobile)
+    navLinks.querySelectorAll('a').forEach(link =>
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      })
+    );
+
+    // --- Parallax SVG Hero (subtil, nur Desktop) ---
+    let isParallaxOk = window.innerWidth > 700;
+    const heroBg = document.querySelector('.hero-svg-bg');
+    function parallaxHero() {
+      if (!isParallaxOk) return;
+      const scrollY = window.scrollY;
+      heroBg.style.transform = `translateY(${Math.min(scrollY * 0.26, 90)}px)`;
+    }
+    window.addEventListener('resize', () => {
+      isParallaxOk = window.innerWidth > 700;
+      if (!isParallaxOk) heroBg.style.transform = 'translateY(0)';
+    });
+    window.addEventListener('scroll', parallaxHero);
+
+    // --- Portfolio Lightbox (barrierefrei, keine Libraries) ---
+    const portfolioGrid = document.getElementById('portfolio-grid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxBefore = document.getElementById('lightbox-before');
+    const lightboxAfter = document.getElementById('lightbox-after');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDesc = document.getElementById('lightbox-desc');
+    const lbCloseBtn = document.querySelector('.lightbox-close');
+    let lastActiveItem = null;
+    portfolioGrid.querySelectorAll('.portfolio-item').forEach((item, idx) => {
+      item.addEventListener('click', () => {
+        const imgs = item.querySelectorAll('img');
+        lightboxBefore.src = imgs[0].src;
+        lightboxAfter.src = imgs[1].src;
+        lightboxBefore.alt = imgs[0].alt;
+        lightboxAfter.alt = imgs[1].alt;
+        lightboxTitle.textContent = item.getAttribute('data-title') || '';
+        lightboxDesc.textContent = item.getAttribute('data-desc') || '';
+        lightbox.classList.add('active');
+        lbCloseBtn.focus();
+        lastActiveItem = item;
+      });
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          item.click(); e.preventDefault();
+        }
+      });
+    });
+    // Lightbox Close
+    lbCloseBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      if (lastActiveItem) lastActiveItem.focus();
+    }
+    // ESC closes lightbox
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
+
+    // --- Kontaktformular Mailto & Validation (Deutsch, ohne Server!) ---
+    const form = document.getElementById('kontakt-form');
+    const status = document.getElementById('form-status');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Validierung
+      let valid = true;
+      status.className = 'form-status';
+      status.textContent = '';
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const dienst = form.dienstleistung.value;
+      const nachricht = form.nachricht.value.trim();
+      if (!name) { valid = false; status.textContent = 'Bitte geben Sie Ihren Namen ein.'; status.classList.add('error'); form.name.focus(); }
+      else if (!email.match(/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/i)) { valid = false; status.textContent = 'Bitte eine gültige E-Mail-Adresse angeben.'; status.classList.add('error'); form.email.focus(); }
+      else if (!dienst) { valid = false; status.textContent = 'Bitte eine Dienstleistung wählen.'; status.classList.add('error'); form.dienstleistung.focus(); }
+      else if (!nachricht) { valid = false; status.textContent = 'Bitte schildern Sie kurz Ihr Anliegen.'; status.classList.add('error'); form.nachricht.focus(); }
+      if (!valid) return;
+      // Mailto generieren
+      const subject = encodeURIComponent(`Kontakt via Website (${dienst})`);
+      const body =
+        "Name: " + name + "%0D%0A" +
+        "E-Mail: " + email + "%0D%0A" +
+        "Telefon: " + (form.tel.value || '') + "%0D%0A" +
+        "Dienstleistung: " + dienst + "%0D%0A" +
+        "Nachricht: %0D%0A" + nachricht;
+      // DEUTSCHER HINWEIS: Empfänger im mailto-link anpassen!
+      const mailto = `mailto:ihre@emailadresse.ch?subject=${subject}&body=${body}`;
+      status.classList.add('success');
+      status.textContent = "Danke für Ihre Nachricht! Ihr Mailprogramm öffnet sich jetzt.";
+      setTimeout(() => { window.location.href = mailto; }, 1050);
+    });
+
+    // --- Aktiver Menülink beim Scrollen (barrierefrei) ---
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let fromTop = window.scrollY + 80;
+      navItems.forEach(link => {
+        const sec = document.querySelector(link.hash);
+        if (!sec) return;
+        const offset = sec.offsetTop, height = sec.offsetHeight;
+        if (fromTop >= offset && fromTop < offset + height) {
+          navItems.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
